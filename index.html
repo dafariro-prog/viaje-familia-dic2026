@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viaje familiar Dic 2026</title>
+<meta name="description" content="Cotizaciones de vuelo + hotel para 5 adultos, Bogotá, 30 dic 2026 - 3 ene 2027">
+<style>
+  :root{
+    color-scheme: light;
+    --surface-1:#fcfcfb; --page:#f9f9f7;
+    --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#898781;
+    --gridline:#e1e0d9; --baseline:#c3c2b7; --border:rgba(11,11,11,0.10);
+    --series-1:#2a78d6;
+    --good:#0ca30c; --good-bg:#e7f6e7;
+    --critical:#d03b3b; --critical-bg:#fbe9e9;
+    --warning:#fab219;
+    --card-shadow: 0 1px 2px rgba(11,11,11,0.06), 0 1px 1px rgba(11,11,11,0.04);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])){
+      color-scheme: dark;
+      --surface-1:#1a1a19; --page:#0d0d0d;
+      --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#898781;
+      --gridline:#2c2c2a; --baseline:#383835; --border:rgba(255,255,255,0.10);
+      --series-1:#3987e5;
+      --good:#0ca30c; --good-bg:#10240f;
+      --critical:#e66767; --critical-bg:#2a1212;
+      --warning:#c98500;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --surface-1:#1a1a19; --page:#0d0d0d;
+    --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#898781;
+    --gridline:#2c2c2a; --baseline:#383835; --border:rgba(255,255,255,0.10);
+    --series-1:#3987e5;
+    --good:#0ca30c; --good-bg:#10240f;
+    --critical:#e66767; --critical-bg:#2a1212;
+    --warning:#c98500;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--page); color:var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px; margin:0 auto; padding:0 16px 64px;}
+  header.hero{
+    padding:32px 16px 24px; max-width:1040px; margin:0 auto;
+  }
+  h1{font-size:1.6rem; margin:0 0 4px; letter-spacing:-0.01em;}
+  .subtitle{color:var(--text-secondary); font-size:0.98rem; margin:0 0 20px;}
+  .trip-bar{
+    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:24px;
+  }
+  .pill{
+    background:var(--surface-1); border:1px solid var(--border); border-radius:999px;
+    padding:7px 14px; font-size:0.85rem; color:var(--text-secondary);
+    display:flex; align-items:center; gap:6px;
+  }
+  .pill b{color:var(--text-primary); font-weight:600;}
+  .insight{
+    background:var(--surface-1); border:1px solid var(--border); border-radius:12px;
+    padding:18px 20px; box-shadow:var(--card-shadow); margin-bottom:28px;
+  }
+  .insight h2{font-size:1rem; margin:0 0 8px;}
+  .insight p{margin:0 0 8px; color:var(--text-secondary); font-size:0.92rem; line-height:1.5;}
+  .insight p:last-child{margin-bottom:0;}
+  nav.jump{
+    display:flex; flex-wrap:wrap; gap:8px; margin-bottom:32px;
+  }
+  nav.jump a{
+    font-size:0.82rem; color:var(--text-secondary); text-decoration:none;
+    border:1px solid var(--border); border-radius:8px; padding:6px 10px;
+  }
+  nav.jump a:hover{border-color:var(--series-1); color:var(--series-1);}
+
+  /* chart */
+  .chart-card{
+    background:var(--surface-1); border:1px solid var(--border); border-radius:12px;
+    padding:20px 20px 12px; box-shadow:var(--card-shadow); margin-bottom:32px;
+  }
+  .chart-card h2{font-size:1rem; margin:0 0 2px;}
+  .chart-sub{color:var(--text-muted); font-size:0.8rem; margin:0 0 18px;}
+  .bars{display:flex; flex-direction:column; gap:14px;}
+  .bar-row{display:grid; grid-template-columns:120px 1fr 118px; align-items:center; gap:10px;}
+  .bar-label{font-size:0.86rem; color:var(--text-primary); font-weight:500;}
+  .bar-track{position:relative; height:22px; background:var(--gridline); border-radius:4px; overflow:visible;}
+  .bar-fill{position:absolute; left:0; top:0; height:100%; border-radius:4px; min-width:4px;}
+  .bar-fill.good{background:var(--good);}
+  .bar-fill.critical{background:var(--critical);}
+  .bar-value{font-size:0.82rem; color:var(--text-secondary); text-align:right; font-variant-numeric:tabular-nums;}
+  .budget-line{
+    position:absolute; top:-4px; bottom:-4px; width:2px; background:var(--text-primary);
+    opacity:0.55;
+  }
+  .budget-flag{
+    position:absolute; top:-20px; font-size:0.68rem; color:var(--text-secondary);
+    transform:translateX(-50%); white-space:nowrap;
+  }
+  .legend{display:flex; gap:16px; margin:18px 0 4px; font-size:0.78rem; color:var(--text-secondary);}
+  .legend span{display:inline-flex; align-items:center; gap:6px;}
+  .swatch{width:10px; height:10px; border-radius:3px; display:inline-block;}
+
+  section.dest{margin-bottom:36px;}
+  .dest-head{display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:4px;}
+  .dest-head h2{font-size:1.15rem; margin:0;}
+  .dest-meta{color:var(--text-muted); font-size:0.82rem; margin:0 0 14px;}
+  .badge{
+    font-size:0.72rem; font-weight:600; padding:3px 9px; border-radius:999px;
+    display:inline-flex; align-items:center; gap:4px;
+  }
+  .badge.good{background:var(--good-bg); color:var(--good);}
+  .badge.critical{background:var(--critical-bg); color:var(--critical);}
+
+  table{width:100%; border-collapse:collapse; background:var(--surface-1); border:1px solid var(--border); border-radius:10px; overflow:hidden; font-size:0.86rem;}
+  caption{display:none;}
+  thead th{
+    text-align:left; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.03em;
+    color:var(--text-muted); font-weight:600; padding:10px 12px; border-bottom:1px solid var(--gridline);
+  }
+  tbody td{padding:10px 12px; border-bottom:1px solid var(--gridline); color:var(--text-secondary); vertical-align:top;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.hotel{color:var(--text-primary); font-weight:500;}
+  td.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap;}
+  td.center{text-align:center; white-space:nowrap;}
+  .src-tag{font-size:0.7rem; color:var(--text-muted); border:1px solid var(--border); border-radius:6px; padding:1px 6px;}
+  .status-dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px;}
+  .status-dot.good{background:var(--good);}
+  .status-dot.critical{background:var(--critical);}
+  .table-scroll{overflow-x:auto;}
+  .links{margin:10px 0 0; display:flex; gap:10px; flex-wrap:wrap;}
+  .links a{
+    font-size:0.8rem; color:var(--series-1); text-decoration:none; border:1px solid var(--border);
+    border-radius:8px; padding:6px 10px;
+  }
+  .links a:hover{border-color:var(--series-1);}
+  .note{font-size:0.78rem; color:var(--text-muted); margin-top:8px;}
+
+  footer{
+    border-top:1px solid var(--gridline); margin-top:32px; padding-top:20px;
+    color:var(--text-muted); font-size:0.78rem; line-height:1.6;
+  }
+  footer a{color:var(--text-secondary);}
+  @media (max-width:560px){
+    .bar-row{grid-template-columns:90px 1fr 92px;}
+    h1{font-size:1.35rem;}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>Viaje familiar &mdash; diciembre 2026</h1>
+  <p class="subtitle">Cotizaciones reales de vuelo + hotel, recopiladas en Despegar.com.co y Aviatur.com</p>
+  <div class="trip-bar">
+    <span class="pill">✈️ Salida desde <b>Bogotá (BOG)</b></span>
+    <span class="pill">📅 <b>30 dic 2026</b> → <b>3 ene 2027</b> (4 noches)</span>
+    <span class="pill">👨‍👩‍👧‍👦 <b>5 adultos</b></span>
+    <span class="pill">💰 Presupuesto objetivo <b>≤ $19.000.000 COP</b> total</span>
+    <span class="pill">🛂 Todos los destinos: <b>sin visa</b> para colombianos</span>
+  </div>
+
+  <div class="insight">
+    <h2>Lo más importante</h2>
+    <p><strong>Ningún destino de playa con plan todo incluido cabe en el presupuesto de $19M.</strong> El all-inclusive de playa más barato encontrado (Punta Cana) cuesta cerca de $42.000.000 para 5 personas &mdash; más del doble del presupuesto. Esto es porque el 30 de diciembre es temporada alta en todos los destinos de playa del Caribe y Suramérica.</p>
+    <p><strong>Panamá (ciudad)</strong> y <strong>Buenos Aires</strong> son los únicos destinos con múltiples opciones reales por debajo de $19M &mdash; ninguno es all-inclusive ni de playa pura, pero Panamá permite excursión a Playa Blanca / Isla Contadora.</p>
+    <p>Fuentes consultadas sin éxito (no cargaron o no tienen flujo de paquetes combinado): Almundo, Avianca Vacaciones, Viajala, Expedia, PriceTravel.</p>
+  </div>
+
+  <nav class="jump">
+    <a href="#chart">Comparativa</a>
+    <a href="#punta-cana">Punta Cana 🇩🇴</a>
+    <a href="#aruba">Aruba 🇦🇼</a>
+    <a href="#panama">Panamá 🇵🇦</a>
+    <a href="#natal">Natal, Brasil 🇧🇷</a>
+    <a href="#punta-del-este">Punta del Este 🇺🇾</a>
+    <a href="#buenos-aires">Buenos Aires 🇦🇷</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <section class="chart-card" id="chart">
+    <h2>Mejor precio total (5 personas) por destino</h2>
+    <p class="chart-sub">Línea vertical = presupuesto de $19.000.000 COP</p>
+    <div class="bars" id="bars"></div>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--good)"></span> Dentro de presupuesto</span>
+      <span><span class="swatch" style="background:var(--critical)"></span> Fuera de presupuesto</span>
+    </div>
+  </section>
+
+  <!-- PUNTA CANA -->
+  <section class="dest" id="punta-cana">
+    <div class="dest-head">
+      <h2>🇩🇴 Punta Cana, República Dominicana</h2>
+      <span class="badge critical">❌ Ningún all-inclusive dentro de 19M</span>
+    </div>
+    <p class="dest-meta">Vuelo con 1 escala (Despegar) o directo JetSmart (Aviatur) · Mejor precio: $19.642.033 (Aviatur, solo hospedaje) &mdash; apenas $642.033 sobre el presupuesto</p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Hotel</th><th>Agencia</th><th>Categoría</th><th>Alimentación</th><th class="num">$/persona</th><th class="num">Total 5 pers.</th><th class="center">Presupuesto</th></tr></thead>
+      <tbody>
+        <tr><td class="hotel">Hotel Yamilí</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>Solo hospedaje</td><td class="num">$3.928.407</td><td class="num">$19.642.033</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Hotel Yamilí</td><td><span class="src-tag">Despegar</span></td><td>3★ (8.8)</td><td>Solo hospedaje</td><td class="num">$4.436.342</td><td class="num">$22.181.710</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Bavaro Green</td><td><span class="src-tag">Aviatur</span></td><td>4★</td><td>Solo hospedaje</td><td class="num">$4.033.150</td><td class="num">$20.165.748</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">4BR 14pax Twin Villa</td><td><span class="src-tag">Aviatur</span></td><td>Villa</td><td>&mdash;</td><td class="num">$4.066.491</td><td class="num">$20.332.455</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">NOK Elegant 2BR Apt Vistacana</td><td><span class="src-tag">Despegar</span></td><td>Depto (8.0)</td><td>&mdash;</td><td class="num">$4.638.812</td><td class="num">$23.194.060</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Apartahotel Punta Cana Seven Be.</td><td><span class="src-tag">Aviatur</span></td><td>Apart.</td><td>&mdash;</td><td class="num">$4.178.146</td><td class="num">$20.890.730</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Amazing pool views apt Bávaro</td><td><span class="src-tag">Despegar</span></td><td>Depto</td><td>&mdash;</td><td class="num">$4.661.203</td><td class="num">$23.306.015</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Macao Sky Pool Suites</td><td><span class="src-tag">Despegar</span></td><td>2★</td><td>&mdash;</td><td class="num">$4.674.359</td><td class="num">$23.371.795</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">GLOBALSTAY Cocotal Condo</td><td><span class="src-tag">Despegar</span></td><td>Condo (8.6)</td><td>&mdash;</td><td class="num">$4.925.490</td><td class="num">$24.627.450</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">DTR Destination</td><td><span class="src-tag">Aviatur</span></td><td>5★</td><td>&mdash;</td><td class="num">$4.512.367</td><td class="num">$22.561.837</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Lumina at Jardines Punta Cana</td><td><span class="src-tag">Despegar</span></td><td>Depto (8.9)</td><td>&mdash;</td><td class="num">$4.999.007</td><td class="num">$24.995.032</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Los Corales Beach Village</td><td><span class="src-tag">Despegar</span></td><td>4★ (7.8)</td><td>Solo hospedaje</td><td class="num">$5.399.392</td><td class="num">$26.996.960</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Drake Villa 5</td><td><span class="src-tag">Aviatur</span></td><td>Villa 5★</td><td>&mdash;</td><td class="num">$5.056.561</td><td class="num">$25.282.807</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Meliá Caribe Beach Resort</td><td><span class="src-tag">Despegar</span></td><td>5★ (8.0)</td><td><strong>All Inclusive</strong></td><td class="num">$8.398.722</td><td class="num">$41.993.606</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Hacienda A-19, Puntacana Resort &amp; Club</td><td><span class="src-tag">Aviatur</span></td><td>5★</td><td>&mdash;</td><td class="num">$8.477.580</td><td class="num">$42.387.899</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Moon Palace The Grand</td><td><span class="src-tag">Despegar</span></td><td>5★ (7.4)</td><td><strong>All Inclusive</strong></td><td class="num">$12.599.681</td><td class="num">$62.998.402</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Resort Uvero Alto (sin nombre completo)</td><td><span class="src-tag">Despegar</span></td><td>5★</td><td><strong>All Inclusive</strong></td><td class="num">$14.199.989</td><td class="num">$70.999.944</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="links">
+      <a href="https://www.despegar.com.co/trip/start/FH/CIT_854/CIT_5963/2026-12-30/2027-01-03/CIT_5963/2026-12-30/2027-01-03/5?from=PSB&nw=true&reSearch=true" target="_blank" rel="noopener">Abrir búsqueda en Despegar →</a>
+      <a href="https://www.aviatur.com" target="_blank" rel="noopener">Abrir Aviatur →</a>
+    </div>
+  </section>
+
+  <!-- ARUBA -->
+  <section class="dest" id="aruba">
+    <div class="dest-head">
+      <h2>🇦🇼 Aruba</h2>
+      <span class="badge critical">❌ Sin oferta all-inclusive disponible</span>
+    </div>
+    <p class="dest-meta">Vuelo directo BOG–AUA (Despegar) · Aviatur no tiene Aruba en su buscador de paquetes · Mejor precio: $23.725.200</p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Hotel</th><th>Agencia</th><th>Categoría</th><th>Alimentación</th><th class="num">$/persona</th><th class="num">Total 5 pers.</th><th class="center">Presupuesto</th></tr></thead>
+      <tbody>
+        <tr><td class="hotel">Swiss Paradise Aruba</td><td><span class="src-tag">Despegar</span></td><td>4★ (9.8)</td><td>Solo hospedaje</td><td class="num">$4.745.040</td><td class="num">$23.725.200</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Embassy Suites By Hilton Aruba Beach Resort</td><td><span class="src-tag">Despegar</span></td><td>4★ (9.2)</td><td>Desayuno buffet</td><td class="num">$5.511.778</td><td class="num">$27.558.890</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">2BS-Azure312 Oceanfront Condo</td><td><span class="src-tag">Despegar</span></td><td>Depto</td><td>&mdash;</td><td class="num">$5.804.193</td><td class="num">$29.020.965</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Beachside Residences</td><td><span class="src-tag">Despegar</span></td><td>Condo (10)</td><td>&mdash;</td><td class="num">$7.187.779</td><td class="num">$35.938.895</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Radisson Blu Aruba</td><td><span class="src-tag">Despegar</span></td><td>4★ (9.4)</td><td>&mdash;</td><td class="num">$11.199.091</td><td class="num">$55.995.451</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="links">
+      <a href="https://www.despegar.com.co/trip/start/FH/CIT_854/CIT_420/2026-12-30/2027-01-03/CIT_420/2026-12-30/2027-01-03/5?from=PSB&nw=true&reSearch=true" target="_blank" rel="noopener">Abrir búsqueda en Despegar →</a>
+    </div>
+  </section>
+
+  <!-- PANAMA -->
+  <section class="dest" id="panama">
+    <div class="dest-head">
+      <h2>🇵🇦 Panamá (ciudad)</h2>
+      <span class="badge good">✅ Todas las opciones dentro de 19M</span>
+    </div>
+    <p class="dest-meta">Vuelo directo BOG–PTY (Avianca/Copa) · Hoteles de ciudad con desayuno, no all-inclusive · Para playa: excursión a Playa Blanca o Isla Contadora · Mejor precio: $10.844.271</p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Hotel</th><th>Agencia</th><th>Categoría</th><th>Alimentación</th><th class="num">$/persona</th><th class="num">Total 5 pers.</th><th class="center">Presupuesto</th></tr></thead>
+      <tbody>
+        <tr><td class="hotel">Hotel Terranova</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.168.854</td><td class="num">$10.844.271</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Hotel Costa Azul</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.175.064</td><td class="num">$10.875.321</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Hotel Costa Azul (otra tarifa)</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.202.112</td><td class="num">$11.010.560</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Hotel Blue Costa Panama</td><td><span class="src-tag">Despegar</span></td><td>3★ (6.1)</td><td>Desayuno</td><td class="num">$2.287.244</td><td class="num">$11.436.220</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Metro Hotel Panama</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.470.616</td><td class="num">$12.353.078</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Metro Hotel Panama (otra tarifa)</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.488.826</td><td class="num">$12.444.130</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Exe Oriental Panama</td><td><span class="src-tag">Despegar</span></td><td>4★ (8.0)</td><td>&mdash;</td><td class="num">$2.844.117</td><td class="num">$14.220.585</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Best Western El Dorado Panama</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.681.433</td><td class="num">$13.407.165</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Best Western El Dorado (otra tarifa)</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.691.614</td><td class="num">$13.458.071</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Best Western El Dorado Panama Hotel</td><td><span class="src-tag">Despegar</span></td><td>3★ (9.0)</td><td>Desayuno</td><td class="num">$2.914.710</td><td class="num">$14.573.550</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Boutique Apartments Panama</td><td><span class="src-tag">Aviatur</span></td><td>Apart.</td><td>&mdash;</td><td class="num">$2.725.099</td><td class="num">$13.625.495</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Yoo Panama</td><td><span class="src-tag">Aviatur</span></td><td>5★</td><td>&mdash;</td><td class="num">$2.728.757</td><td class="num">$13.643.783</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">The Hub Modern Apartments by Wynwood</td><td><span class="src-tag">Despegar</span></td><td>Depto</td><td>&mdash;</td><td class="num">$2.964.029</td><td class="num">$14.820.145</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Boutique Apartments Coco del Mar</td><td><span class="src-tag">Aviatur</span></td><td>Apart.</td><td>&mdash;</td><td class="num">$2.919.750</td><td class="num">$14.598.748</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">The Hub Modern Apartments (Aviatur)</td><td><span class="src-tag">Aviatur</span></td><td>Depto</td><td>&mdash;</td><td class="num">$2.920.278</td><td class="num">$14.601.388</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Megapolis Hotel Panamá</td><td><span class="src-tag">Despegar</span></td><td>5★ (7.8)</td><td>Desayuno</td><td class="num">$3.118.735</td><td class="num">$15.593.675</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">La Moderna Downtown Nights by Wynwood</td><td><span class="src-tag">Aviatur</span></td><td>Apart.</td><td>&mdash;</td><td class="num">$3.043.371</td><td class="num">$15.216.853</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="links">
+      <a href="https://www.despegar.com.co/paquetes" target="_blank" rel="noopener">Abrir búsqueda en Despegar →</a>
+      <a href="https://www.aviatur.com" target="_blank" rel="noopener">Abrir Aviatur →</a>
+    </div>
+  </section>
+
+  <!-- NATAL / BRASIL -->
+  <section class="dest" id="natal">
+    <div class="dest-head">
+      <h2>🇧🇷 Natal, Brasil</h2>
+      <span class="badge critical">❌ El destino de playa más caro</span>
+    </div>
+    <p class="dest-meta">Vuelo con 1 escala · Poca disponibilidad, pocas opciones encontradas · Mejor precio: $25.963.188</p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Hotel</th><th>Agencia</th><th>Categoría</th><th>Alimentación</th><th class="num">$/persona</th><th class="num">Total 5 pers.</th><th class="center">Presupuesto</th></tr></thead>
+      <tbody>
+        <tr><td class="hotel">Liiv Cobogó - Natal Ponta Negra</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>Solo hospedaje</td><td class="num">$5.192.638</td><td class="num">$25.963.188</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Liiv Cobogó - Natal Ponta Negra</td><td><span class="src-tag">Despegar</span></td><td>3★ (8.8)</td><td>Solo hospedaje</td><td class="num">$6.413.666</td><td class="num">$32.068.330</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Casa Cabugi Ponta Negra JR</td><td><span class="src-tag">Despegar</span></td><td>Casa</td><td>&mdash;</td><td class="num">$6.591.872</td><td class="num">$32.959.360</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Apart Hotel Serantes</td><td><span class="src-tag">Despegar</span></td><td>3★ (8.7)</td><td>Desayuno buffet</td><td class="num">$6.919.720</td><td class="num">$34.598.600</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Vila do Mar Natal</td><td><span class="src-tag">Aviatur</span></td><td>5★</td><td>&mdash;</td><td class="num">$7.029.539</td><td class="num">$35.147.696</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Soleil Garbos Hotel</td><td><span class="src-tag">Despegar</span></td><td>4★ (8.9)</td><td>Desayuno</td><td class="num">$7.414.274</td><td class="num">$37.071.370</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">GoldMen Vila do Mar Natal</td><td><span class="src-tag">Despegar</span></td><td>4★ (8.7)</td><td><strong>All Inclusive</strong></td><td class="num">$8.218.404</td><td class="num">$41.092.020</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">GoldMen Vila do Mar Natal</td><td><span class="src-tag">Aviatur</span></td><td>5★</td><td><strong>All Inclusive</strong></td><td class="num">$7.764.925</td><td class="num">$38.824.626</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="links">
+      <a href="https://www.despegar.com.co/paquetes" target="_blank" rel="noopener">Abrir búsqueda en Despegar →</a>
+      <a href="https://www.aviatur.com" target="_blank" rel="noopener">Abrir Aviatur →</a>
+    </div>
+  </section>
+
+  <!-- PUNTA DEL ESTE -->
+  <section class="dest" id="punta-del-este">
+    <div class="dest-head">
+      <h2>🇺🇾 Punta del Este, Uruguay</h2>
+      <span class="badge critical">❌ Muy poca disponibilidad (temporada alta uruguaya)</span>
+    </div>
+    <p class="dest-meta">Vuelo con 2 escalas · Solo 4 opciones encontradas en total entre ambas agencias · Mejor precio: $28.631.960</p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Hotel</th><th>Agencia</th><th>Categoría</th><th>Alimentación</th><th class="num">$/persona</th><th class="num">Total 5 pers.</th><th class="center">Presupuesto</th></tr></thead>
+      <tbody>
+        <tr><td class="hotel">Solanas Punta del Este &amp; Crystal Beach</td><td><span class="src-tag">Despegar</span></td><td>3★ (7.7)</td><td>&mdash;</td><td class="num">$5.726.392</td><td class="num">$28.631.960</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Golden Beach Resort and Spa</td><td><span class="src-tag">Despegar</span></td><td>4★ (7.7)</td><td>Desayuno continental</td><td class="num">$5.905.707</td><td class="num">$29.528.535</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Golden Beach Resort</td><td><span class="src-tag">Aviatur</span></td><td>4★</td><td>Desayuno</td><td class="num">$6.255.164</td><td class="num">$31.275.822</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+        <tr><td class="hotel">Hotel del Lago Golf &amp; Art Resort</td><td><span class="src-tag">Despegar</span></td><td>5★ (8.8)</td><td>Desayuno buffet</td><td class="num">$6.097.522</td><td class="num">$30.487.610</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="links">
+      <a href="https://www.despegar.com.co/paquetes" target="_blank" rel="noopener">Abrir búsqueda en Despegar →</a>
+      <a href="https://www.aviatur.com" target="_blank" rel="noopener">Abrir Aviatur →</a>
+    </div>
+  </section>
+
+  <!-- BUENOS AIRES -->
+  <section class="dest" id="buenos-aires">
+    <div class="dest-head">
+      <h2>🇦🇷 Buenos Aires, Argentina</h2>
+      <span class="badge good">✅ Todas las opciones dentro de 19M (sin restricción de playa)</span>
+    </div>
+    <p class="dest-meta">Vuelo directo JetSmart BOG–BUE · No es destino de playa, pero el usuario autorizó destinos generales en Argentina · Mejor precio: $14.107.183</p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Hotel</th><th>Agencia</th><th>Categoría</th><th>Alimentación</th><th class="num">$/persona</th><th class="num">Total 5 pers.</th><th class="center">Presupuesto</th></tr></thead>
+      <tbody>
+        <tr><td class="hotel">In House BA - Le Coq</td><td><span class="src-tag">Aviatur</span></td><td>4★</td><td>&mdash;</td><td class="num">$2.821.437</td><td class="num">$14.107.183</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">In House BA - College</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.863.006</td><td class="num">$14.315.032</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Art House Charcas</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.874.291</td><td class="num">$14.371.453</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">San Remo City Hotel</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.889.293</td><td class="num">$14.446.463</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Hotel Lyon</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>Desayuno</td><td class="num">$2.897.819</td><td class="num">$14.489.095</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Le Batiment Apartments</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.917.173</td><td class="num">$14.585.867</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">LOI Flats Buenos Aires</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.935.179</td><td class="num">$14.675.893</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Syrah Suites</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$2.974.779</td><td class="num">$14.873.896</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Hotel Luey</td><td><span class="src-tag">Despegar</span></td><td>3★ (8.3)</td><td>Desayuno buffet</td><td class="num">$3.343.765</td><td class="num">$16.718.825</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Htl City Baires</td><td><span class="src-tag">Aviatur</span></td><td>5★</td><td>&mdash;</td><td class="num">$3.019.125</td><td class="num">$15.095.625</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Stay Hotel Plaza San Martin</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$3.043.879</td><td class="num">$15.219.397</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">La Vie Suite Barrio Norte</td><td><span class="src-tag">Aviatur</span></td><td>3★</td><td>&mdash;</td><td class="num">$3.051.517</td><td class="num">$15.257.587</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">1253 Recoleta Small Hotel</td><td><span class="src-tag">Aviatur</span></td><td>5★</td><td>&mdash;</td><td class="num">$3.053.459</td><td class="num">$15.267.294</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Hotel Lyon</td><td><span class="src-tag">Despegar</span></td><td>3★ (7.6)</td><td>Desayuno</td><td class="num">$3.453.669</td><td class="num">$17.268.345</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">HTL City Baires</td><td><span class="src-tag">Despegar</span></td><td>4★ (8.6)</td><td>&mdash;</td><td class="num">$3.545.698</td><td class="num">$17.728.490</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Loi Flats Buenos Aires</td><td><span class="src-tag">Despegar</span></td><td>3★ (8.1)</td><td>&mdash;</td><td class="num">$3.553.719</td><td class="num">$17.768.595</td><td class="center"><span class="status-dot good"></span>✅</td></tr>
+        <tr><td class="hotel">Hotel lujo Puerto Madero</td><td><span class="src-tag">Despegar</span></td><td>5★ (9.0)</td><td>&mdash;</td><td class="num">$22.650.040</td><td class="num">$113.250.200</td><td class="center"><span class="status-dot critical"></span>❌</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="links">
+      <a href="https://www.despegar.com.co/paquetes" target="_blank" rel="noopener">Abrir búsqueda en Despegar →</a>
+      <a href="https://www.aviatur.com" target="_blank" rel="noopener">Abrir Aviatur →</a>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Fuentes:</strong> <a href="https://www.despegar.com.co" target="_blank" rel="noopener">Despegar.com.co</a> y <a href="https://www.aviatur.com" target="_blank" rel="noopener">Aviatur.com</a>, consultadas el 27 de octubre de 2026 para el viaje del 30 dic 2026 al 3 ene 2027. No se pudo cotizar en Almundo, Avianca Vacaciones, Viajala, Expedia ni PriceTravel (sitios caídos o sin flujo de paquetes combinado en el momento de la búsqueda).</p>
+    <p>Los precios son los mostrados en pantalla al momento de la consulta, en COP, para 5 adultos. Pueden cambiar por disponibilidad, tipo de cambio o promociones. Verifica el precio final antes de pagar. Los requisitos de entrada sin visa para colombianos pueden cambiar sin previo aviso; confírmalos en la cancillería o migración de cada país antes de viajar.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var BUDGET = 19000000;
+  var data = [
+    {name:'Punta Cana', total:19642033},
+    {name:'Aruba', total:23725200},
+    {name:'Panamá', total:10844271},
+    {name:'Natal', total:25963188},
+    {name:'Pta. del Este', total:28631960},
+    {name:'Buenos Aires', total:14107183}
+  ];
+  var max = Math.max.apply(null, data.map(function(d){return d.total;}));
+  var container = document.getElementById('bars');
+  data.forEach(function(d){
+    var pct = (d.total / max) * 100;
+    var budgetPct = (BUDGET / max) * 100;
+    var within = d.total <= BUDGET;
+    var row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML =
+      '<div class="bar-label">' + d.name + '</div>' +
+      '<div class="bar-track">' +
+        '<div class="bar-fill ' + (within ? 'good' : 'critical') + '" style="width:' + pct + '%"></div>' +
+        '<div class="budget-line" style="left:' + budgetPct + '%"></div>' +
+      '</div>' +
+      '<div class="bar-value">$' + d.total.toLocaleString('es-CO') + '</div>';
+    container.appendChild(row);
+  });
+})();
+</script>
+</body>
+</html>
